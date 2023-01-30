@@ -1,4 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿// Найти требуемое число из массива
 int[] array = { 1, 12, 31, 4, 18, 15, 16, 17, 18 };
 
 int n = array.Length;
