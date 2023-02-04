@@ -6,29 +6,69 @@
 18 20
 15 18 */
 
-using System;
-
-namespace Task58
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            int[,] arr1 = { { 2, 4 }, { 3, 2 } };
-            int[,] arr2 = { { 3, 4 }, { 3, 3 } };
-            int[,] result = new int[arr1.GetLength(0), arr2.GetLength(1)];
+        int[][] arr = new int[3][];
 
-            for (int i = 0; i < arr1.GetLength(0); i++)
+        Console.WriteLine("result 1: \n");
+        {
+            int[,] a = new int[,] { { 2, 3 }, { 4, 2 } };
+            int[,] b = new int[,] { { 3, 3 }, { 4, 3 } };
+
+            int[,] result = Program.MultiplyMatrix(a, b);
+            Program.PrintMatrix(result);
+        }
+
+        Console.WriteLine("\nresult 2: \n");
+        {
+            int[,] a = new int[,] { { 2, -3, 4 }, { 1, 0, -1 } };
+            int[,] b = new int[,] { { 5, -3 }, { -1, 0 }, { 6, 7 } };
+
+            int[,] result = Program.MultiplyMatrix(a, b);
+            Program.PrintMatrix(result);
+        }
+    }
+
+    public static int[,] MultiplyMatrix(int[,] m1, int[,] m2) {
+        int sumMaxIndex = m1.GetLength(0);
+
+        if (m2.GetLength(1) != sumMaxIndex) {
+            throw new Exception("matrices are not consistent");
+        }
+
+        int resultRawCount = m1.GetLength(1);
+        int resultColumnCount = m2.GetLength(0);
+
+        int[,] result = new int[resultRawCount, resultColumnCount];
+        for (int i = 0; i < resultRawCount; i++)
+        {
+            for (int j = 0; j < resultColumnCount; j++)
             {
-                for (int j = 0; j < arr2.GetLength(1); j++)
+                int resultItem = 0;
+
+                for (int r = 0; r < sumMaxIndex; r++)
                 {
-                    int sum = 0;
-                    for (int k = 0; k < arr2.GetLength(0); k++)
-                    {
-                        sum += arr1[i, k] * arr2[k, j];
-                    }
-                    result[i, j] = sum;
+                    resultItem = resultItem + m1[r, i] * m2[j, r];
                 }
+
+                result[i, j] = resultItem;
+            }
+        }
+
+        return result;
+    }
+
+    public static void PrintMatrix(int[,] matrix) {
+        for (int i = 0; i < matrix.GetLength(0); i++)
+        {
+            for (int j = 0; j < matrix.GetLength(1); j++)
+            {
+                Console.Write(matrix[i,j] + "\t");
             }
 
-            for (int i = 0;
+            Console.WriteLine();
+        }
+    }
+}
